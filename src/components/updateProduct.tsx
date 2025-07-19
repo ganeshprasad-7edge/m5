@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import TopBar from './topbar'
 import Header from './header'
 
-export default function AddProduct() {
+export default function UpdateProduct() {
     return (
         <div className="w-full overflow-auto">
             <TopBar />
@@ -35,7 +35,7 @@ export default function AddProduct() {
 
                             <Link to="/">
                                 <button className="flexjustify-center p-1 rounded-lg bg-[#4094F7] text-white border-2 w-full h-12">
-                                Add
+                                Update
                                 </button>
                             </ Link>
                         </div>

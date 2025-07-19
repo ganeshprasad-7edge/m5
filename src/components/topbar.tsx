@@ -1,7 +1,7 @@
 
 export default function TopBar() {
     return (
-        <div className="flex shadow-md shadow-[#E5E9EB] h-14 px-[40px] py-4 justify-between">
+        <div className="flex shadow-md shadow-[#E5E9EB] h-14 px-10 py-4 justify-between">
             <div className="flex">
                 <img src="search.svg" alt="" className="w-6 mr-2" />
                 <input className="text-sm text-gray-500 broder-none" placeholder="Search..."/>

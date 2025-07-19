@@ -1,13 +1,27 @@
 import { useEffect, useState } from 'react'
+import { Link } from "react-router-dom";
 
 import TopBar from './topbar'
 import Header from './header'
 import Skeleton from './skeleton'
 
+interface Product {
+    id: number
+    title: string
+    price: number
+    description: string
+    category: {
+        id: number
+        name: string
+        image: string
+    }
+    images: string[]
+}
+
 export default function ProductList() {
     const [products, setProducts] = useState([])
     const fetchList = async () => {
-        const response = await fetch('https://api.escuelajs.co/api/v1/products?offset=0&limit=7')
+        const response = await fetch('https://api.escuelajs.co/api/v1/products')
         const data = await response.json()
         console.log('data', data)
         return data
@@ -24,7 +38,7 @@ export default function ProductList() {
             <TopBar />
             <Header />
             {products.length > 0 ? (
-                <div className='px-8 pt-2'>
+                <div className='pl-12 pr-8 pt-2'>
                 <table className="w-full">
                     <thead>
                         <tr className="w-full flex justify-between text-[#84919A] text-sm border-b-2 border-[#E5E9EB] pt-3 pb-1.5">
@@ -37,7 +51,7 @@ export default function ProductList() {
                         </tr>
                     </thead>    
                     <tbody className='w-full'>
-                        {products.map((product) => (
+                        {products.map((product: Product) => (
                             <tr key={product.id} className="flex justify-between items-center border-b-2 border-[#E5E9EB]">
                                 {/* Added flex items-center to vertically align checkbox */}
                                 <td className="w-[5%] flex items-center justify-center">
@@ -48,14 +62,16 @@ export default function ProductList() {
                                 <td className="py-2  w-[20%] text-left">{product.title}</td>
                                 {/* <td className="py-2 w-[30%] text-left">{product.description}</td> */}
                                 <td className="py-2 w-[30%] text-left" title={product.description}>
-                                    {product.description.split(' ').slice(0,10).join(' ')}
-                                    {product.description.split(' ').length > 10 ? '...' : ''}
+                                    {product.description.slice(0,100)}
+                                    {product.description.length > 100 ? '...' : ''}
                                 </td>  
                                 <td className="py-2 w-[5%] text-right">{product.price}</td>
                                 <td className="py-2  w-[5%] text-left">
                                     <div className='flex justify-around'>
-                                        <img src='edit.svg' alt=""  />
                                         <img src='delete.svg' alt=""  />
+                                        <Link to="/update">
+                                            <img src='edit.svg' alt=""  />
+                                        </Link>
                                     </div>
                                 </td>
                             </tr>
@@ -64,7 +80,7 @@ export default function ProductList() {
                 </table>
             </div>
             ) : <Skeleton/>}
-            <div className='px-8 pt-8 pb-5 flex justify-between'>
+            { products.length > 7 ? (<div className='pl-12 pr-8 pt-8 pb-5 flex justify-between'>
                 <button className='flex border-2 rounded-md py-1 px-2'>
                     <img src="arrow-left.png" alt="" className='mr-2' />
                     Previous
@@ -96,7 +112,8 @@ export default function ProductList() {
                     Next
                     <img src="arrow-right.png" alt="" className='ml-2' />
                 </button>
-            </div>
+            </div>) : <div />
+}
         </div>
     )
 

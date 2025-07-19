@@ -1,18 +1,16 @@
-// import { useState } from 'react'
-import SideBar from '../src/components/sideBar'
-import ProductList from '../src/components/productList'
-import AppRoutes from './routes'
+import { BrowserRouter as Router } from 'react-router-dom'
+import SideBar from './components/sideBar'
+import AppRoutes from './routes/route'
 import './App.css'
 
 function App() {
-  
   return (
-    <>
+    <Router>
       <div className="flex h-screen">
         <SideBar />
-        <ProductList />
+        <AppRoutes />
       </div>
-    </>
+    </Router>
   )
 }
 
