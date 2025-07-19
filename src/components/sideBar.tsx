@@ -19,12 +19,12 @@ export default function SideBar() {
                         <img src="products.svg" alt="Products" className='px-2' />
                         <div>Products</div>
                     </li>
-                    <li className='pl-8 py-2'>Reviews</li>
-                    <li className='pl-8 py-2'>Disputes</li>
-                    <li className='pl-8 py-2'>Top-ups</li>
-                    <li className='pl-8 py-2'>Check deposits</li>
-                    <li className='pl-8 py-2'>Top-ups</li>
-                    <li className='pl-8 py-2 mb-3'>All transactions</li>
+                    <li className='pl-10 py-2'>Reviews</li>
+                    <li className='pl-10 py-2'>Disputes</li>
+                    <li className='pl-10 py-2'>Top-ups</li>
+                    <li className='pl-10 py-2'>Check deposits</li>
+                    <li className='pl-10 py-2'>Top-ups</li>
+                    <li className='pl-10 py-2 mb-3'>All transactions</li>
                     <li className='flex py-2'>
                         <img src="balances.svg" alt="Balances" className='px-2' />
                         <div>Balances</div>
@@ -62,7 +62,7 @@ export default function SideBar() {
                             <img src="view_test_data.svg" alt="View test data" className='px-2' />
                             <div>View test data</div>
                         </li>
-                        <li className='flex py-2 mb-4'>
+                        <li className='flex py-2'>
                             <img src="settings.svg" alt="Settings" className='px-2' />
                             <div>Settings</div>
                         </li>
