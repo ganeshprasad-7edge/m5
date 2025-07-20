@@ -14,21 +14,21 @@ export default function Header() {
                 <h1 className="text-3xl font-bold mb-2">{isMainRoute ? 'Products' : isAddRoute ? 'Add Products' : 'Update Products'}</h1>
                 {isMainRoute && (
                     <div className="flex">
-                        <button className="flex border-2 m-2 p-1 rounded-sm">
-                        <img src={filterIcon} alt="" className="mr-0.5"/>
-                        <div className="relative">
-                            <div className="absolute rounded-full px-1.5 bg-[#F76659] text-white top-[-15px] right-[-15px] ">1</div>
-                        Filter
-                        </div>
+                        <button className="flex border-2 m-2 p-1 rounded-lg">
+                            <img src={filterIcon} alt="" className="mr-1 ml-1"/>
+                            <div className="relative pr-2">
+                                <div className="absolute rounded-full w-4 h-4 bg-[#F76659] text-white text-xs flex items-center justify-center top-[-8px] right-[-8px]">1</div>
+                                Filter
+                            </div>
                         </button>
-                        <button className="flex border-2 m-2 p-1 rounded-sm">
-                        <img src={exportIcon} alt="" className="mr-0.5" />
-                        Export
+                        <button className="flex border-2 m-2 py-1 pr-3 rounded-lg">
+                            <img src={exportIcon} alt="" className="mx-1" />
+                            Export
                         </button>
                         <Link to="/add">
-                            <button className="flex m-2 p-1 rounded-[6px] bg-[#4094F7] text-white border-2">
-                            <img src={addIcon} alt="" />
-                            Add Product
+                            <button className="flex m-2 py-1 pr-3 rounded-lg bg-[#4094F7] text-white border-2 text-md">
+                                <img src={addIcon} alt="" className="mx-1" />
+                                Add Product
                             </button>
                         </Link>
                     </div>
