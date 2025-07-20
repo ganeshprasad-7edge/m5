@@ -6,6 +6,7 @@ import Header from './header'
 import Skeleton from './skeleton'
 import DeleteModal from './DeleteModal'
 import NoData from './NoData'
+import ProductCard from './ProductCard'
 import { useToast } from '../context/ToastContext'
 
 import deleteIcon from '/delete.svg';
@@ -111,13 +112,15 @@ export default function ProductList() {
         fetchData()
     }, [])
     return (
-        <div className="w-full overflow-auto">
+        <div className="w-full">
             <TopBar />
             <Header />
             {isLoading ? (
                 <Skeleton />
             ) : products.length > 0 ? (
-                <div className='pl-12 pr-8 pt-2'>
+                <div className='px-3 xs:px-4 sm:px-8 lg:pl-12 lg:pr-8 pt-2'>
+                {/* Desktop view - table */}
+                <div className="hidden lg:block">
                 <table className="w-full">
                     <thead>
                         <tr className="w-full flex justify-between text-[#84919A] text-sm border-b-2 border-[#E5E9EB] pt-3 pb-1.5">
@@ -128,11 +131,11 @@ export default function ProductList() {
                                     checked={selectedProducts.length > 0 && selectedProducts.length === products.length}
                                 />
                             </th>
-                            <th className="text-left  w-[5%]">IMAGE</th>
+                            <th className="text-left  w-[10%]">IMAGE</th>
                             <th className="text-left  w-[20%]">TITLE</th>
-                            <th className="text-left w-[30%]">DESCRIPTION</th>
-                            <th className="text-right w-[5%]">PRICE</th>
-                            <th className="text-left  w-[5%]">ACTIONS</th>
+                            <th className="text-left w-[25%]">DESCRIPTION</th>
+                            <th className="text-right w-[10%]">PRICE</th>
+                            <th className="text-center w-[10%]">ACTIONS</th>
                         </tr>
                     </thead>    
                     <tbody className='w-full'>
@@ -147,17 +150,17 @@ export default function ProductList() {
                                         onChange={(e) => handleSelectProduct(product.id, e.target.checked)}
                                     />
                                 </td>
-                                <td className="py-2  w-[5%] text-left">
+                                <td className="py-2  w-[10%] text-left">
                                     <img src={product.category.image} alt="" className="w-16 object-cover rounded-lg" /></td>
                                 <td className="py-2  w-[20%] text-left">{product.title}</td>
                                 {/* <td className="py-2 w-[30%] text-left">{product.description}</td> */}
-                                <td className="py-2 w-[30%] text-left" title={product.description}>
+                                <td className="py-2 w-[25%] text-left" title={product.description}>
                                     {product.description.slice(0,100)}
                                     {product.description.length > 100 ? '...' : ''}
                                 </td>  
-                                <td className="py-2 w-[5%] text-right">$ {product.price}</td>
-                                <td className="py-2  w-[5%] text-left">
-                                    <div className='flex justify-around'>
+                                <td className="py-2 w-[10%] text-right">$ {product.price}</td>
+                                <td className="py-2  w-[10%] text-center">
+                                    <div className='flex gap-5 justify-center'>
                                         <img 
                                             src={deleteIcon} 
                                             alt="Delete" 
@@ -173,9 +176,23 @@ export default function ProductList() {
                         ))}
                     </tbody>
                 </table>
+                </div>
+                
+                {/* Mobile view - cards */}
+                <div className="lg:hidden">
+                    {products.map((product: Product) => (
+                        <ProductCard 
+                            key={product.id}
+                            product={product}
+                            onDeleteClick={handleDeleteClick}
+                            isSelected={selectedProducts.includes(product.id)}
+                            onSelectChange={handleSelectProduct}
+                        />
+                    ))}
+                </div>
             </div>
             ) : <NoData />}
-            { products.length > 6 ? (<div className='pl-12 pr-8 pt-8 pb-5 flex justify-between'>
+            { products.length > 6 ? (<div className='px-3 xs:px-4 sm:px-8 lg:pl-12 lg:pr-8 pt-8 pb-5 flex flex-wrap justify-between'>
                 <button className='flex border-2 rounded-md py-1 px-2'>
                     <img src={arrowLeftIcon} alt="" className='mr-2' />
                     Previous

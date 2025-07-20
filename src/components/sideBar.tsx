@@ -1,4 +1,5 @@
 // SideBar.tsx
+import { useSidebar } from '../context/SidebarContext';
 import overviewIcon from '/overview.svg';
 import productsIcon from '/products.svg';
 import balancesIcon from '/balances.svg';
@@ -13,14 +14,31 @@ import viewTestDataIcon from '/view_test_data.svg';
 import settingsIcon from '/settings.svg';
 
 export default function SideBar() {
+    const { isOpen, toggleSidebar } = useSidebar();
     return (
-        <div className="h-full flex flex-col bg-[#F6F8F9] pr-4 lg:w-[280px] md:w-[240px]">
-            <div className='pl-[26px] pt-[21px]'>
+        <>
+            {/* Overlay */}
+            {isOpen && (
+                <div 
+                    className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+                    onClick={toggleSidebar}
+                ></div>
+            )}
+            
+            {/* Sidebar */}
+            <div className={`h-screen flex flex-col bg-[#F6F8F9] pr-4 xl:w-[280px] lg:w-[240px] fixed z-30 transition-all duration-300 ${isOpen ? 'left-0' : '-left-full lg:left-0'} shadow-lg`}>
+            <div className='pl-[26px] pt-[21px] flex justify-between items-center'>
                 <h1 className='text-[18px] font-bold'>FakeApp</h1>
+                <button 
+                    className="lg:hidden mr-4 text-2xl"
+                    onClick={toggleSidebar}
+                >
+                    &times;
+                </button>
             </div>
             
             {/* First set of items */}
-            <nav className='flex flex-col flex-1 pl-[26px] pt-[21px]'>
+            <nav className='flex flex-col flex-1 pl-[26px] pt-[21px] overflow-y-auto'>
                 <ul className='flex flex-col h-full'>
                     <li className='flex py-2'>
                         <img src={overviewIcon} alt="Overview" className='px-2' />
@@ -82,5 +100,6 @@ export default function SideBar() {
                 </ul>
             </nav>
         </div>
+        </>
     )
 }
