@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import TopBar from './topbar'
 import Header from './header'
 import Skeleton from './skeleton'
+import DeleteModal from './DeleteModal'
+import { useToast } from '../context/ToastContext'
 
 import deleteIcon from '/delete.svg';
 import editIcon from '/edit.svg';
@@ -25,11 +27,48 @@ interface Product {
 
 export default function ProductList() {
     const [products, setProducts] = useState([])
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [productToDelete, setProductToDelete] = useState<Product | null>(null)
+    const { showToast } = useToast()
     const fetchList = async () => {
         const response = await fetch('https://api.escuelajs.co/api/v1/products')
         const data = await response.json()
         console.log('data', data)
         return data
+    }
+    
+    const handleDeleteClick = (product: Product) => {
+        setProductToDelete(product)
+        setIsDeleteModalOpen(true)
+    }
+    
+    const handleDeleteConfirm = async () => {
+        if (!productToDelete) return
+        
+        try {
+            const response = await fetch(`https://api.escuelajs.co/api/v1/products/${productToDelete.id}`, {
+                method: 'DELETE'
+            })
+            
+            if (response.ok) {
+                // Remove the product from the list
+                setProducts(products.filter((p: Product) => p.id !== productToDelete.id))
+                showToast('Product deleted successfully', 'success')
+            } else {
+                showToast('Failed to delete product', 'error')
+            }
+        } catch (error) {
+            console.error('Error deleting product:', error)
+            showToast('Error deleting product', 'error')
+        } finally {
+            setIsDeleteModalOpen(false)
+            setProductToDelete(null)
+        }
+    }
+    
+    const handleDeleteCancel = () => {
+        setIsDeleteModalOpen(false)
+        setProductToDelete(null)
     }
     useEffect(() => {
         const fetchData = async () => {
@@ -73,7 +112,12 @@ export default function ProductList() {
                                 <td className="py-2 w-[5%] text-right">{product.price}</td>
                                 <td className="py-2  w-[5%] text-left">
                                     <div className='flex justify-around'>
-                                        <img src={deleteIcon} alt=""  />
+                                        <img 
+                                            src={deleteIcon} 
+                                            alt="Delete" 
+                                            className="cursor-pointer" 
+                                            onClick={() => handleDeleteClick(product)} 
+                                        />
                                         <Link to={`/update/${product.id}`}>
                                             <img src={editIcon} alt=""  />
                                         </Link>
@@ -118,8 +162,13 @@ export default function ProductList() {
                     <img src={arrowRightIcon} alt="" className='ml-2' />
                 </button>
             </div>) : <div />
-}
+        }
+        <DeleteModal 
+            isOpen={isDeleteModalOpen}
+            onClose={handleDeleteCancel}
+            onDelete={handleDeleteConfirm}
+            productName={productToDelete?.title || ''}
+        />
         </div>
     )
-
 }
