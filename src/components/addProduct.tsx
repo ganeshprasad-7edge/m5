@@ -23,12 +23,14 @@ export default function AddProduct() {
         if (file) {
             if (file.type.match(/^image\/(jpg|jpeg|png)$/)) {
                 setImage(file);
-                setErrors({...errors, image: false});
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    setPreviewUrl(reader.result as string);
-                };
-                reader.readAsDataURL(file);
+                setErrors({
+                    title: false,
+                    price: false,
+                    description: false,
+                    image: false
+                });
+                const imageUrl = URL.createObjectURL(file);
+                setPreviewUrl(imageUrl);
             } else {
                 setErrors({...errors, image: true});
             }
@@ -41,12 +43,14 @@ export default function AddProduct() {
         if (file) {
             if (file.type.match(/^image\/(jpg|jpeg|png)$/)) {
                 setImage(file);
-                setErrors({...errors, image: false});
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    setPreviewUrl(reader.result as string);
-                };
-                reader.readAsDataURL(file);
+                setErrors({
+                    title: false,
+                    price: false,
+                    description: false,
+                    image: false
+                });
+                const imageUrl = URL.createObjectURL(file);
+                setPreviewUrl(imageUrl);
             } else {
                 setErrors({...errors, image: true});
             }
@@ -58,7 +62,7 @@ export default function AddProduct() {
         setPreviewUrl(null);
     };
 
-    const validateForm = (e: React.FormEvent) => {
+    const validateForm = async (e: React.FormEvent) => {
         e.preventDefault();
         const newErrors = {
             title: title.trim() === "",
@@ -69,7 +73,31 @@ export default function AddProduct() {
         setErrors(newErrors);
 
         if (!newErrors.title && !newErrors.price && !newErrors.description && !newErrors.image) {
-            navigate('/');
+            try {
+                const imageUrl = "https://placehold.co/600x400";
+                
+                const response = await fetch('https://api.escuelajs.co/api/v1/products/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        title,
+                        price: Number(price),
+                        description,
+                        categoryId: 1,
+                        images: [imageUrl]
+                    })
+                });
+
+                if (response.ok) {
+                    navigate('/');
+                } else {
+                    console.error('Failed to add product');
+                }
+            } catch (error) {
+                console.error('Error adding product:', error);
+            }
         }
     };
 
@@ -120,7 +148,15 @@ export default function AddProduct() {
                                 type="text" 
                                 placeholder="Enter product title" 
                                 value={title}
-                                onChange={(e) => setTitle(e.target.value)}
+                                onChange={(e) => {
+                                    setTitle(e.target.value);
+                                    setErrors({
+                                        title: false,
+                                        price: false,
+                                        description: false,
+                                        image: false
+                                    });
+                                }}
                                 className={`border-2 ${errors.title ? 'border-red-500' : 'border-[#E5E9EB]'} rounded-md h-14 w-full px-2`}
                                 required 
                             />
@@ -132,7 +168,15 @@ export default function AddProduct() {
                                 type="number" 
                                 placeholder="Enter product price" 
                                 value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                onChange={(e) => {
+                                    setPrice(e.target.value);
+                                    setErrors({
+                                        title: false,
+                                        price: false,
+                                        description: false,
+                                        image: false
+                                    });
+                                }}
                                 className={`border-2 ${errors.price ? 'border-red-500' : 'border-[#E5E9EB]'} rounded-md h-14 w-full px-2`}
                                 required
                             />
@@ -145,7 +189,15 @@ export default function AddProduct() {
                             type="text" 
                             placeholder="Enter product description" 
                             value={description}
-                            onChange={(e) => setDescription(e.target.value)}
+                            onChange={(e) => {
+                                setDescription(e.target.value);
+                                setErrors({
+                                    title: false,
+                                    price: false,
+                                    description: false,
+                                    image: false
+                                });
+                            }}
                             className={`border-2 ${errors.description ? 'border-red-500' : 'border-[#E5E9EB]'} rounded-md h-14 w-full px-2`}
                             required
                         />

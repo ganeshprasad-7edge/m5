@@ -5,6 +5,11 @@ import TopBar from './topbar'
 import Header from './header'
 import Skeleton from './skeleton'
 
+import deleteIcon from '/delete.svg';
+import editIcon from '/edit.svg';
+import arrowLeftIcon from '/arrow-left.png';
+import arrowRightIcon from '/arrow-right.png';
+
 interface Product {
     id: number
     title: string
@@ -68,9 +73,9 @@ export default function ProductList() {
                                 <td className="py-2 w-[5%] text-right">{product.price}</td>
                                 <td className="py-2  w-[5%] text-left">
                                     <div className='flex justify-around'>
-                                        <img src='delete.svg' alt=""  />
-                                        <Link to="/update">
-                                            <img src='edit.svg' alt=""  />
+                                        <img src={deleteIcon} alt=""  />
+                                        <Link to={`/update/${product.id}`}>
+                                            <img src={editIcon} alt=""  />
                                         </Link>
                                     </div>
                                 </td>
@@ -82,7 +87,7 @@ export default function ProductList() {
             ) : <Skeleton/>}
             { products.length > 7 ? (<div className='pl-12 pr-8 pt-8 pb-5 flex justify-between'>
                 <button className='flex border-2 rounded-md py-1 px-2'>
-                    <img src="arrow-left.png" alt="" className='mr-2' />
+                    <img src={arrowLeftIcon} alt="" className='mr-2' />
                     Previous
                 </button>
                 <div className='flex'>
@@ -110,7 +115,7 @@ export default function ProductList() {
                 </div>
                 <button className='flex border-2 rounded-md py-1 px-2'>
                     Next
-                    <img src="arrow-right.png" alt="" className='ml-2' />
+                    <img src={arrowRightIcon} alt="" className='ml-2' />
                 </button>
             </div>) : <div />
 }
