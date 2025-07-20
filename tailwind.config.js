@@ -6,6 +6,24 @@ export default {
   ],
   theme: {
     extend: {
+      keyframes: {
+        slideDown: {
+          '0%': { transform: 'translateY(-100%) translateX(-50%)', opacity: '0' },
+          '10%': { transform: 'translateY(0) translateX(-50%)', opacity: '1' },
+          '90%': { transform: 'translateY(0) translateX(-50%)', opacity: '1' },
+          '100%': { transform: 'translateY(-100%) translateX(-50%)', opacity: '0' },
+        },
+        slideRight: {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '10%': { transform: 'translateX(0)', opacity: '1' },
+          '90%': { transform: 'translateX(0)', opacity: '1' },
+          '100%': { transform: 'translateX(100%)', opacity: '0' },
+        },
+      },
+      animation: {
+        'toast': 'slideDown 3s ease-in-out forwards',
+        'toast-right': 'slideRight 3s ease-in-out forwards',
+      },
       colors: {
         'sidebar-bg-color': '#F6F8F9',
         'sidebar-text-color': '#252C32',

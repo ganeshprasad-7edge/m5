@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import TopBar from './topbar'
 import Header from './header'
+import { useToast } from '../context/ToastContext'
 
 export default function AddProduct() {
     const navigate = useNavigate();
+    const { showToast } = useToast();
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
@@ -91,12 +93,15 @@ export default function AddProduct() {
                 });
 
                 if (response.ok) {
+                    showToast('Product added successfully', 'success');
                     navigate('/');
                 } else {
+                    showToast('Failed to add product', 'error');
                     console.error('Failed to add product');
                 }
             } catch (error) {
                 console.error('Error adding product:', error);
+                showToast('Error adding product', 'error');
             }
         }
     };
@@ -203,7 +208,7 @@ export default function AddProduct() {
                         />
                         {errors.description && <p className="text-red-500 text-sm mt-1">Description is required</p>}
                     </div>
-                    <div className='w-full mt-4'>
+                    {/* <div className='w-full mt-4'>
                         <div className='w-1/2'>
                             <button 
                                 onClick={validateForm}
@@ -211,6 +216,28 @@ export default function AddProduct() {
                             >
                                 Add
                             </button>
+                        </div>
+                    </div> */}
+                    <div className='w-full mt-4'>
+                        <div className='flex gap-4'>
+                            <div className='w-1/2'>
+                                <button 
+                                    type="button" 
+                                    onClick={() => navigate('/')}
+                                    className="flex justify-center items-center p-1 rounded-lg bg-white text-gray-700 border-2 w-full h-12"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                            <div className='w-1/2'>
+                                <button 
+                                    type="button" 
+                                    onClick={validateForm}
+                                    className="flex justify-center items-center p-1 rounded-lg bg-[#4094F7] text-white border-2 w-full h-12"
+                                >
+                                    Add
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

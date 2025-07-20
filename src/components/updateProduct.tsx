@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import TopBar from './topbar'
 import Header from './header'
 import UpdateSkeleton from './updateSkeleton'
+import { useToast } from '../context/ToastContext'
 
 interface Product {
     id: number
@@ -21,6 +22,7 @@ interface Product {
 export default function UpdateProduct() {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const { showToast } = useToast();
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [title, setTitle] = useState('');
@@ -163,16 +165,16 @@ export default function UpdateProduct() {
                 });
                 
                 if (response.ok) {
-                    alert('Product updated successfully!');
+                    showToast('Product updated successfully', 'success');
                     navigate('/');
                 } else {
                     const errorData = await response.json().catch(() => ({}));
                     console.error('API error:', errorData);
-                    alert(`Failed to update product: ${errorData.message || 'Unknown error'}`);
+                    showToast(`Failed to update product: ${errorData.message || 'Unknown error'}`, 'error');
                 }
             } catch (error) {
                 console.error('Error updating product:', error);
-                alert('Error updating product');
+                showToast('Error updating product', 'error');
             }
         }
     };
@@ -285,7 +287,7 @@ export default function UpdateProduct() {
                             </div>
                             <div className='w-full mt-4'>
                                 <div className='flex gap-4'>
-                                    <div className='w-1/3'>
+                                    <div className='w-1/2'>
                                         <button 
                                             type="button" 
                                             onClick={() => navigate('/')}
@@ -294,7 +296,7 @@ export default function UpdateProduct() {
                                             Cancel
                                         </button>
                                     </div>
-                                    <div className='w-1/3'>
+                                    <div className='w-1/2'>
                                         <button 
                                             type="button" 
                                             onClick={handleUpdate}
