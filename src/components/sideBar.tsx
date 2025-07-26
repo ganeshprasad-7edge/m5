@@ -20,13 +20,13 @@ export default function SideBar() {
             {/* Overlay */}
             {isOpen && (
                 <div 
-                    className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
                     onClick={toggleSidebar}
                 ></div>
             )}
             
             {/* Sidebar */}
-            <div className={`h-screen flex flex-col bg-[#F6F8F9] pr-4 xl:w-[280px] lg:w-[240px] fixed z-30 transition-all duration-300 ${isOpen ? 'left-0' : '-left-full lg:left-0'} shadow-lg`}>
+            <div className={`h-screen flex flex-col bg-[#F6F8F9] pr-4 xl:w-[280px] lg:w-[240px] fixed z-50 transition-all duration-300 ${isOpen ? 'left-0' : '-left-full lg:left-0'} shadow-lg`}>
             <div className='pl-[26px] pt-[21px] flex justify-between items-center'>
                 <h1 className='text-[18px] font-bold'>FakeApp</h1>
                 <button 

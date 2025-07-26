@@ -7,13 +7,13 @@ const UpdateProduct = React.lazy(() => import('../components/updateProduct'));
 
 const AppRoutes = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    // <Suspense fallback={<div>Loading...</div>}>
       <Routes>
         <Route path="/" element={<ProductList />} />
         <Route path="/add" element={<AddProduct />} />
         <Route path="/update/:id" element={<UpdateProduct />} />
       </Routes>
-    </Suspense>
+    // </Suspense>
   );
 };
 

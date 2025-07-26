@@ -12,7 +12,7 @@ function App() {
         <SidebarProvider>
           <div className="flex flex-col md:flex-row min-h-screen">
             <SideBar />
-            <div className="flex-1 overflow-y-auto lg:ml-[240px] xl:ml-[280px]">
+            <div className="flex-1 lg:ml-[240px] xl:ml-[280px] flex flex-col h-screen overflow-y-auto">
               <AppRoutes />
             </div>
           </div>
